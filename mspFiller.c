@@ -7,14 +7,13 @@ int mspFiller(FILE* fp, int windowsVersion, long biWidth, long biHeigth, unsigne
     int i, j;
     short mspHead[16] = {0x00};
     /*
-    //mspæ–‡ä»¶æ–°å»º
     if((fp = fopen("output.msp", "wb+")) == NULL)
     {
         return -1;
     }
     */
 
-    //ç»„è?…æ–‡ä»¶å¤´
+    //MSPƒtƒ@ƒCƒ‹ƒwƒbƒ_
     /*
     WORD  Key1;              Magic number    
     WORD  Key2;              Magic number    

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
-//引用bmp头文件结构体
+//load msp head file structure
 #include "bmp_head.h"
 
 

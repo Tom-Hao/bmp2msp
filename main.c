@@ -12,52 +12,54 @@
 
 int main(int argc, char* argv[])
 {
-    int windowsVersion; //Windows 版本選擇
-    int ok; //檢查MSP檔案是否?完
-    int size; //BMP圖片尺寸
-    int width; //BMP圖片?度
-    int height; //BMP圖片高度
-    int bmpBitCount; //BMP圖片每?素點對應位元數
-    int lineBytes; //一行字元組數
+    int windowsVersion; //Windows偺僶乕僕儑儞
+    int ok; //曄姺姰椆偡傞偐斲偐傪妋擣
+    int size; //BMP僼傽僀儖偺僒僀僘
+    int width; //BMP僼傽僀儖偺暆
+    int height; //BMP僼傽僀儖偺崅偝
+    int bmpBitCount; //BMP枅夋慺懳墳價僢僩悢
+    int lineBytes; //堦峴偺僶僀僩悢
 
     int i, j, a;
 
-    unsigned char** bmpData; //BMP檔案內容
-    unsigned char** mspData; //MSP檔案內容
+    unsigned char** bmpData; //BMP僼傽僀儖撪梕
+    unsigned char** mspData; //MSP僼傽僀儖撪梕
 
-    FILE* fp_bmp; //BMP檔案
-    FILE* fp_msp; //MSP檔案
-    BMPFILEHEADER bmpFileHeader; //BMP檔案頭
-    BMPINFOHEADER bmpInfoHeader; //BMP資?頭
-    RGBQUAD rgbQuad; //調色盤
+    FILE* fp_bmp; //BMP僼傽僀儖
+    FILE* fp_msp; //MSP僼傽僀儖
+    BMPFILEHEADER bmpFileHeader; //BMP僼傽僀儖偺摢
+    BMPINFOHEADER bmpInfoHeader; //BMP僼傽僀儖偺Info摢
+    RGBQUAD rgbQuad; //挷怓斦
+
+    printf("BMP2MSP 1.0斉\nCopyright (C) 2023-2024 Made by Tom Hao.\n");
 
     if(argc <= 2 || argc > 3)
     {
         //if(argv[1] == "/?")
         if(strcmp(argv[1], "/?") == 0)
         {
-            printf("This program can convert your bmp picture to msp picture, which is the format for MS-Paint on Windows 1.x or Windows 2.x.\n To use this program, you can type the command like this:\n 'bmp2msp bmpfilename mspfilename',\n and then the program will convert the bmpfilename to mspfilename with the name you typed.\n");
+            printf("崯偺僾儘僌儔儉偼丄BMP夋憸傪Windows 1.x偲2.x偺MS-Paint偺MSP夋憸偵曄姺弌棃傑偡丅\n 'bmp2msp bmpfilename mspfilename'偲尵偆柦椷偱丄曄姺奐巒偟傑偡丅\n");
             return 0;
         }
         else
         {
-            printf("Please run with parameter, e.g. 'bmp2msp test.bmp test.msp'\n");
+            printf("僷儔儊乕僞偼昁梫偱偡丄椺丗'bmp2msp test.bmp test.msp'\n");
             return -1;
         }
     }
 
     if(argc == 0 || argc == 1)
     {
-        printf("Please run with parameter, e.g. 'bmp2msp test.bmp test.msp'\n");
+        printf("僷儔儊乕僞偼昁梫偱偡丄椺丗'bmp2msp test.bmp test.msp'\n");
         return -1;
 
     }
 
-    printf("The BMP file is %s.\n", argv[1]);
+    printf("崯偺BMP僼傽僀儖偼 %s 偱偡丅\n", argv[1]);
 
     if((fp_bmp = fopen(argv[1], "rb")) == NULL)
     {
-        printf("Read bmp file error.\n");
+        printf("僄儔乕偺堊BMP僼傽僀儖撉傒崬傔傑偣傫丅\n");
         return -1;
     }
 
@@ -75,18 +77,18 @@ int main(int argc, char* argv[])
     showBmpFileInfo(bmpInfoHeader);
 */
 
-    printf("Please choose your Windows Version: 1 = 1.x 2 = 2.x.\n"); //選擇Windows版本
+    printf("Windows僶乕僕儑儞傪慖戰偟偰壓偝偄丗 1 = 1.x 2 = 2.x.\n"); //Windows僶乕僕儑儞偺慖戰
     scanf("%d", &windowsVersion);
     fflush(stdin);
-    if(bmpFileHeader.bfType == 0x4d42) //檢查是否為BMP檔案
+    if(bmpFileHeader.bfType == 0x4d42) //BMP僼傽僀儖偐偳偆偐偺専嵏
     {
-        if(bmpInfoHeader.biWidth == 0x0140 || bmpInfoHeader.biWidth == 0x0280) //確認BMP圖片?度，這?程式僅支援三百二十?素以及六百四十?素之圖片
+        if(bmpInfoHeader.biWidth == 0x0140 || bmpInfoHeader.biWidth == 0x0280) //BMP夋憸偺暆傪妋擣丄桞嶰昐擇廫丒榋昐巐廫夋慺暆偩偗偼曄姺弌棃傑偡丅
         {
-            if(bmpInfoHeader.biHeigth == 0x00C8 || bmpInfoHeader.biHeigth == 0x000F || bmpInfoHeader.biHeigth == 0x0190 || bmpInfoHeader.biHeigth == 0x01E0) //確認BMP圖片高度，這?程式僅支援二百?素／二百四十?素／四百?素以及四百八十?素之圖片
+            if(bmpInfoHeader.biHeigth == 0x00C8 || bmpInfoHeader.biHeigth == 0x000F || bmpInfoHeader.biHeigth == 0x0190 || bmpInfoHeader.biHeigth == 0x01E0) //BMP夋憸偺崅偝傪妋擣丄桞擇昐丒擇昐巐廫丒巐昐丒巐昐敧廫夋慺偺崅偝偩偗偼曄姺弌棃傑偡丅
             { 
-                if(windowsVersion == 1) //若為Windows 1.x
+                if(windowsVersion == 1) //Windows 1.x偺応崌
                 {
-                    fseek(fp_bmp, bmpFileHeader.bfOffBits, SEEK_SET); //定位圖片內容起始位置
+                    fseek(fp_bmp, bmpFileHeader.bfOffBits, SEEK_SET); //BMP夋憸撪梕掕埵
                     
                     size = bmpInfoHeader.biSizeImage;
                     width = bmpInfoHeader.biWidth;
@@ -111,94 +113,43 @@ int main(int argc, char* argv[])
                             fread(&bmpData[i][j], sizeof(unsigned char), 1, fp_bmp);
                         }
                     }
-                    printf("Start converting.\n");
-                    bmpTurn(bmpData, mspData, size, width, height, bmpBitCount); //圖像轉置
-                    printf("Start writing.\n");
-                    ok = mspFiller(fp_msp, windowsVersion, width, height, mspData, width, height, lineBytes); //?MSP函式
+                    printf("曄姺奐巒丅\n");
+                    bmpTurn(bmpData, mspData, size, width, height, bmpBitCount);
+                    printf("彂偒崬傒奐巒丅\n");
+                    ok = mspFiller(fp_msp, windowsVersion, width, height, mspData, width, height, lineBytes); //?MSP敓幃
 
-                    if(ok == 0) //若成功
+                    if(ok == 0) //惉岟偡傟偽
                     {
                         free(bmpData);
                         free(mspData);
                         fclose(fp_bmp);
                         fclose(fp_msp);
-                        printf("MSP write complete!\n");
+                        printf("MSP僼傽僀儖嶌惉姰椆両\n");
                         return 0;
                     }
-                    else //失敗
+                    else //幐攕偡傟偽
                     {
                         free(bmpData);
                         free(mspData);
                         fclose(fp_bmp);
                         fclose(fp_msp);
-                        printf("MSP write fail!\n");
+                        printf("MSP僼傽僀儖嶌惉幐攕両\n");
                         return 0;
                     }
                 }
-                else if(windowsVersion == 2) //若為Windows 2.x
+                else if(windowsVersion == 2) //Windows 2.x偺応崌
                 {
                     
                     fclose(fp_bmp);
                     fclose(fp_msp);
-                    printf("Sorry, cannot support this version temporarily.\n");
+                    printf("崱崯偺僾儘僌儔儉偼巄偔Windows 2.x偺MS-Paint偺MSP僼傽僀儖傪張棟弌棃傑偣傫丅\n");
                     return 0;
-                    
-                   /*
-                   fseek(fp_bmp, bmpFileHeader.bfOffBits, SEEK_SET); //定位圖片內容起始位置
-                    
-                    size = bmpInfoHeader.biSizeImage;
-                    width = bmpInfoHeader.biWidth;
-                    height = bmpInfoHeader.biHeigth;
-                    bmpBitCount = bmpInfoHeader.biBitCount;
-                    lineBytes = (bmpBitCount * width) / 8;
-                    bmpData = (unsigned char**)malloc(sizeof(unsigned char*) * height);
-                    for(i = 0; i < height; i++)
-                    {
-                        bmpData[i] = (unsigned char*)malloc(sizeof(unsigned char) * lineBytes);
-                    }
-
-                    mspData = (unsigned char**)malloc(sizeof(unsigned char*) * height);
-                    for(i = 0; i < height; i++)
-                    {
-                        mspData[i] = (unsigned char*)malloc(sizeof(unsigned char) * lineBytes);
-                    }
-                    for(i = 0; i < height; i++)
-                    {
-                        for(j = 0; j < lineBytes; j++)
-                        {
-                            fread(&bmpData[i][j], sizeof(unsigned char), 1, fp_bmp);
-                        }
-                    }
-                    printf("Start converting.\n");
-                    bmpTurn(bmpData, mspData, size, width, height, bmpBitCount); //圖像轉置
-                    printf("Start writing.\n");
-                    ok = mspFiller(fp_msp, windowsVersion, width, height, mspData, width, height, lineBytes); //?MSP函式
-
-                    if(ok == 0) //若成功
-                    {
-                        free(bmpData);
-                        free(mspData);
-                        fclose(fp_bmp);
-                        fclose(fp_msp);
-                        printf("MSP write complete!\n");
-                        return 0;
-                    }
-                    else //失敗
-                    {
-                        free(bmpData);
-                        free(mspData);
-                        fclose(fp_bmp);
-                        fclose(fp_msp);
-                        printf("MSP write fail!\n");
-                        return 0;
-                    }
-                    */
                 }
                 else
                 {
                     fclose(fp_bmp);
                     fclose(fp_msp);
-                    printf("Illegal input!\n");
+                    printf("娫堘偄僼傽僀儖枖偼僼傽僀儖攋懝偱偡偺偱丄曄姺弌棃傑偣傫丅\n");
                     return 0;
                 }
             }
@@ -206,7 +157,7 @@ int main(int argc, char* argv[])
             {
                 fclose(fp_bmp);
                 fclose(fp_msp);
-                printf("This program cannot support this size of the BMP file.\n");
+                printf("崯偺崅偝傪張棟弌棃傑偣傫丅\n");
                 return 0;
             }
         }
@@ -214,7 +165,7 @@ int main(int argc, char* argv[])
         {
             fclose(fp_bmp);
             fclose(fp_msp);
-            printf("This program cannot support this size of the BMP file.\n");
+            printf("崯偺暆傪張棟弌棃傑偣傫丅\n");
             return 0;
         }
     }
@@ -222,7 +173,7 @@ int main(int argc, char* argv[])
     {
         fclose(fp_bmp);
         fclose(fp_msp);
-        printf("This is not a BMP file.\n");
+        printf("娫堘偄僼傽僀儖枖偼僼傽僀儖攋懝偱偡偺偱丄曄姺弌棃傑偣傫丅\n");
         return 0;
     }
 
