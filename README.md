@@ -24,6 +24,6 @@ P.S. Because the msp file in MS-Windows 2.x’s MS-Paint appeared RLE compressio
 MS-DOSやWindowsコマンドプロンプトで、”bmp2msp filename.bmp filename.msp”の様な命令を入力して、変換作業が開始します。
 注意：変換作業進行時必ず変換したいBMPファイルを此のプログラムと同じのディレクトリに置いて、変換完成後MSPファイルも此のディレクトリに生成します。
 
-そして此のプログラムはNEC PC-9800シリーズの電脳用システムに開発する為、言語は日本語(Shift-JIS)ですので、禦使用前システムの言語やエンコードを確認して下さい。
+そして此のプログラムはNEC PC-9800シリーズの電脳用システムに開発する為、言語は日本語(Shift-JIS)ですので、御使用前システムの言語やエンコードを確認して下さい。
 
 P.S.MS-Windows 2.xのMS-PaintのMSPファイルはRLE圧縮と言う圧縮方法で圧縮されて、そして僕のプログラミング能力は限界有りますので、今此のプログラムは暫くMS-Windows 2.xのMS-PaintのMSPファイルに変換出來ません。
