@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     BMPINFOHEADER bmpInfoHeader; //BMPファイルのInfo頭
     RGBQUAD rgbQuad; //調色盤
 
-    printf("BMP2MSP 0.5.132 BETA版\nCopyright (C) 2023-2024 中国軟体開発組 Tom Hao 製作\n");
+    printf("BMP2MSP 0.5.132 BETA版\nCopyright (C) 2023-2024 Tom Hao 製作\n");
 
     if(argc <= 2 || argc > 3)
     {
