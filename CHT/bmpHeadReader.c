@@ -24,3 +24,10 @@ void showBmpFileInfo(BMPINFOHEADER bmpInfoHeader)
     printf("biClrUsed: %d\n", bmpInfoHeader.biClrUsed);
     printf("biClrImportant: %d\n", bmpInfoHeader.biClrImportant);
 }
+
+void showBmpRgbQuad(RGBQUAD rgbQuad)
+{
+    printf("BMP RGB Quad\n");
+    printf("biWhite: %d\n", rgbQuad.rgbWhite);
+    printf("biBlack: %d\n", rgbQuad.rgbBlack);
+}

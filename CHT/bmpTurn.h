@@ -4,6 +4,6 @@
 #include <malloc.h>
 #include <stdlib.h>
 
-void bmpTurn(unsigned char** bmpData, unsigned char** mspData, int bmpSize, int width, int height, int bmpBitCount);
+void bmpTurn(unsigned char** bmpData, unsigned char** mspData, int bmpSize, int width, int height, int bmpBitCount, int bmpWhite, int bmpBlack);
 
 #endif

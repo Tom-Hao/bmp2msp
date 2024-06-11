@@ -12,4 +12,6 @@ void showBmpFileHead(BMPFILEHEADER bmpFileHeader);
 
 void showBmpFileInfo(BMPINFOHEADER bmpInfoHeader);
 
+void showBmpRgbQuad(RGBQUAD rgbQuad);
+
 #endif

@@ -2,7 +2,7 @@
 
 #include "bmpTurn.h"
 
-void bmpTurn(unsigned char** bmpData, unsigned char** mspData, int bmpSize, int width, int height, int bmpBitCount)
+void bmpTurn(unsigned char** bmpData, unsigned char** mspData, int bmpSize, int width, int height, int bmpBitCount, int bmpWhite, int bmpBlack)
 {
     int i, j, k;
     int lineBytes = (bmpBitCount * width) / 8;
@@ -14,12 +14,26 @@ void bmpTurn(unsigned char** bmpData, unsigned char** mspData, int bmpSize, int 
         tempData[k] = (unsigned char*)malloc(sizeof(unsigned char) * lineBytes);
     }
 
-    for(i = 0; i < height; i++) //行
+    if(bmpWhite == 0x0 && bmpBlack == 0xFFFFFF)
     {
-        for(j = 0; j < lineBytes; j++) //列
+        for(i = 0; i < height; i++) //行
         {
-            //*(mspData + i + j) = *(tempData + (height - 1 - i) + j);
-            mspData[i][j] = bmpData[height - 1 - i][j];
+            for(j = 0; j < lineBytes; j++) //列
+            {
+                //*(mspData + i + j) = *(tempData + (height - 1 - i) + j);
+                mspData[i][j] = bmpData[height - 1 - i][j];
+            }
+        }
+    }
+    else if(bmpWhite == 0xFFFFFF && bmpBlack == 0x0)
+    {
+        for(i = 0; i < height; i++) //行
+        {
+            for(j = 0; j < lineBytes; j++) //列
+            {
+                //*(mspData + i + j) = *(tempData + (height - 1 - i) + j);
+                mspData[i][j] = 0xFF - bmpData[height - 1 - i][j];
+            }
         }
     }
 

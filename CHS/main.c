@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
     int height; //BMP文件高度
     int bmpBitCount; //BMP每个像素对应的bit数
     int lineBytes; //一行字节数
+    int bmpWhite;  //BMP图片白黑对应
+    int bmpBlack;  //BMP图片白黑对应
 
     int i, j, a;
 
@@ -31,7 +33,7 @@ int main(int argc, char* argv[])
     BMPINFOHEADER bmpInfoHeader; //BMP文件Info头
     RGBQUAD rgbQuad; //调色盘
 
-    printf("BMP2MSP 0.5.132 BETA版\n版权所有 (C) 2023-2024 Tom Hao 制作\n");
+    printf("BMP2MSP 0.5.191 BETA版\n版权所有 (C) 2023-2024 Tom Hao 制作\n");
 
     if(argc <= 2 || argc > 3)
     {
@@ -72,9 +74,11 @@ int main(int argc, char* argv[])
 
     fread(&bmpFileHeader, 14, 1, fp_bmp);
     fread(&bmpInfoHeader, 40, 1, fp_bmp);
+    fread(&rgbQuad, 8, 1, fp_bmp);
 /*
     showBmpFileHead(bmpFileHeader);
     showBmpFileInfo(bmpInfoHeader);
+    showBmpRgbQuad(rgbQuad);
 */
 
     printf("请选择Windows版本： 1 = 1.x 2 = 2.x.\n"); //Windows版本选择
@@ -84,7 +88,7 @@ int main(int argc, char* argv[])
     {
         if(bmpInfoHeader.biWidth == 0x0140 || bmpInfoHeader.biWidth == 0x0280) //确认BMP图像的宽度，只能转换三百二十、六百四十像素的图片。
         {
-            if(bmpInfoHeader.biHeigth == 0x00C8 || bmpInfoHeader.biHeigth == 0x000F || bmpInfoHeader.biHeigth == 0x0190 || bmpInfoHeader.biHeigth == 0x01E0) //确认BMP图像的高度，只能转换二百、二百四十、四百、四百八十像素的图片。
+            if(bmpInfoHeader.biHeigth == 0x00C8 || bmpInfoHeader.biHeigth == 0x00F0 || bmpInfoHeader.biHeigth == 0x0190 || bmpInfoHeader.biHeigth == 0x01E0) //确认BMP图像的高度，只能转换二百、二百四十、四百、四百八十像素的图片。
             { 
                 if(windowsVersion == 1) //若为Windows 1.x
                 {
@@ -94,6 +98,8 @@ int main(int argc, char* argv[])
                     width = bmpInfoHeader.biWidth;
                     height = bmpInfoHeader.biHeigth;
                     bmpBitCount = bmpInfoHeader.biBitCount;
+                    bmpWhite = rgbQuad.rgbWhite;
+                    bmpBlack = rgbQuad.rgbBlack;
                     lineBytes = (bmpBitCount * width) / 8;
                     bmpData = (unsigned char**)malloc(sizeof(unsigned char*) * height);
                     for(i = 0; i < height; i++)
@@ -114,7 +120,7 @@ int main(int argc, char* argv[])
                         }
                     }
                     printf("转换开始。\n");
-                    bmpTurn(bmpData, mspData, size, width, height, bmpBitCount);
+                    bmpTurn(bmpData, mspData, size, width, height, bmpBitCount, bmpWhite, bmpBlack);
                     printf("开始写入MSP。\n");
                     ok = mspFiller(fp_msp, windowsVersion, width, height, mspData, width, height, lineBytes); //MSP函数
 
